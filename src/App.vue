@@ -192,13 +192,13 @@ onUnmounted(() => { if (toastTimer) clearTimeout(toastTimer) })
             </section>
 
             <section class="metrics" aria-label="项目概览">
-              <div class="metric"><div><strong>06</strong><span>精心设计的主题</span></div><Palette :size="19" :stroke-width="1.6" /></div>
+              <div class="metric"><div><strong>{{ String(themes.length).padStart(2,'0') }}</strong><span>精心设计的主题</span></div><Palette :size="19" :stroke-width="1.6" /></div>
               <div class="metric"><div><strong>20<span>+</span></strong><span>可复用语义变量</span></div><Layers3 :size="19" :stroke-width="1.6" /></div>
               <div class="metric"><div><strong>01</strong><span>统一组件交互层</span></div><MousePointer2 :size="19" :stroke-width="1.6" /></div>
             </section>
 
             <section class="section theme-section">
-              <div class="section-heading"><div><div class="section-kicker">01 / VISUAL LANGUAGES</div><h2>探索主题系列 <span class="count-label">06</span></h2><p>选择任意风格，即刻改变整个工作台的视觉语言。</p></div><span class="section-detail">CURATED COLLECTION — 2026</span></div>
+              <div class="section-heading"><div><div class="section-kicker">01 / VISUAL LANGUAGES</div><h2>探索主题系列 <span class="count-label">{{ String(themes.length).padStart(2,'0') }}</span></h2><p>选择任意风格，即刻改变整个工作台的视觉语言。</p></div><span class="section-detail">CURATED COLLECTION — 2026</span></div>
               <div class="theme-grid">
                 <button v-for="(item, index) in themes" :key="item.id" class="theme-card" :class="{ selected: theme === item.id }" :aria-pressed="theme === item.id" @click="setTheme(item.id)">
                   <div class="theme-preview" :data-preview="item.id">
