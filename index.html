@@ -10,7 +10,7 @@
     <script>
       // Prevent a light-theme flash before Vue is mounted.
       try {
-        const available = ['porcelain', 'midnight', 'lavender', 'parchment', 'evergreen', 'brutalist'];
+        const available = ['porcelain', 'midnight', 'lavender', 'parchment', 'evergreen', 'brutalist', 'boardui'];
         const stored = localStorage.getItem('reka-theme-studio-theme');
         document.documentElement.dataset.theme = available.includes(stored) ? stored : 'porcelain';
       } catch {

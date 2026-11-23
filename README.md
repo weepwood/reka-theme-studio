@@ -4,7 +4,7 @@
 
 ## 离线预览
 
-直接双击 `preview.html`，可以在不安装依赖的情况下预览页面外观并切换六套主题。它是**独立的视觉预览**，不是使用 Reka UI 构建的真实组件演示；完整交互请运行 Vue 应用。
+直接双击 `preview.html`，可以在不安装依赖的情况下预览页面外观并切换七套主题。它是**独立的视觉预览**，不是使用 Reka UI 构建的真实组件演示；完整交互请运行 Vue 应用。
 
 ## 启动
 
@@ -36,8 +36,13 @@ npm run preview
 | `parchment` | 暖纸编辑 | 文艺与内容阅读 |
 | `evergreen` | 常青森林 | 深绿自然风格 |
 | `brutalist` | 新粗野主义 | 强对比与硬边框 |
+| `boardui` | BoardUI 精密工作台 | 细腻中性色、渐变交互控件、轻量浮层 |
 
 主题同时控制整体背景、导航、文字、边框、强调色、表面、卡片阴影、圆角、按钮和所有弹出层；点击侧边栏主题或右上角选择器即可切换，并通过 `localStorage` 记忆。单击右上角日月图标可依次轮换主题。
+
+### BoardUI 风格适配
+
+`boardui` 主题参考 [BoardUI/boardui](https://github.com/BoardUI/boardui) 的公开设计 Token 与基础组件视觉规范（MIT License），在不引入其 React/Next 组件逻辑的前提下，将按钮、输入框、Select/Dropdown、Checkbox、Switch、Tabs、侧栏选中态、卡片与 Dialog 的视觉配方适配到现有 Reka UI 原语上。
 
 ## 架构
 
@@ -59,7 +64,7 @@ tests/
 1. **Reka UI 管交互**：Select、Dialog、Tabs 等的焦点、键盘导航、状态交给 Reka UI。
 2. **CSS Variables 管外观**：组件声明 `background: var(--surface)` 等语义变量，不直接写主题色。
 3. **主题作用于 `<html>`**：通过 `document.documentElement.dataset.theme = id` 设置。因此 Reka UI Teleport / Portal 到 `body` 的弹窗和菜单也能读取对应主题。
-4. **主题预览独立作用域**：预览卡片的 `data-preview` 使用同一套 CSS Tokens，即使主页面切到深色，也能同时展示全部六种风格。
+4. **主题预览独立作用域**：预览卡片的 `data-preview` 使用同一套 CSS Tokens，即使主页面切到深色，也能同时展示全部七种风格。
 5. **不依赖 Tailwind**：使用原生 CSS，便于向普通 Vue 应用和 Tauri / Electron WebView 迁移。
 
 ## 新增一套主题

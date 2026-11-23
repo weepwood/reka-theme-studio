@@ -59,6 +59,16 @@ export const themes = [
     category: 'Light',
     dark: false,
   },
+  {
+    id: 'boardui',
+    name: 'BoardUI',
+    zhName: '精密工作台',
+    description: '参考 BoardUI 的精密中性色、渐变控件与轻量浮层',
+    caption: 'PRODUCTIVITY / POLISHED',
+    accent: '#2b7fff',
+    category: 'Light',
+    dark: false,
+  },
 ] as const
 
 export type ThemeId = (typeof themes)[number]['id']

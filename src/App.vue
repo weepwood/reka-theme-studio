@@ -192,13 +192,13 @@ onUnmounted(() => { if (toastTimer) clearTimeout(toastTimer) })
             </section>
 
             <section class="metrics" aria-label="项目概览">
-              <div class="metric"><div><strong>06</strong><span>精心设计的主题</span></div><Palette :size="19" :stroke-width="1.6" /></div>
+              <div class="metric"><div><strong>{{ String(themes.length).padStart(2,'0') }}</strong><span>精心设计的主题</span></div><Palette :size="19" :stroke-width="1.6" /></div>
               <div class="metric"><div><strong>20<span>+</span></strong><span>可复用语义变量</span></div><Layers3 :size="19" :stroke-width="1.6" /></div>
               <div class="metric"><div><strong>01</strong><span>统一组件交互层</span></div><MousePointer2 :size="19" :stroke-width="1.6" /></div>
             </section>
 
             <section class="section theme-section">
-              <div class="section-heading"><div><div class="section-kicker">01 / VISUAL LANGUAGES</div><h2>探索主题系列 <span class="count-label">06</span></h2><p>选择任意风格，即刻改变整个工作台的视觉语言。</p></div><span class="section-detail">CURATED COLLECTION — 2026</span></div>
+              <div class="section-heading"><div><div class="section-kicker">01 / VISUAL LANGUAGES</div><h2>探索主题系列 <span class="count-label">{{ String(themes.length).padStart(2,'0') }}</span></h2><p>选择任意风格，即刻改变整个工作台的视觉语言。</p></div><span class="section-detail">CURATED COLLECTION — 2026</span></div>
               <div class="theme-grid">
                 <button v-for="(item, index) in themes" :key="item.id" class="theme-card" :class="{ selected: theme === item.id }" :aria-pressed="theme === item.id" @click="setTheme(item.id)">
                   <div class="theme-preview" :data-preview="item.id">
@@ -241,7 +241,7 @@ onUnmounted(() => { if (toastTimer) clearTimeout(toastTimer) })
           </template>
 
           <template v-else>
-            <section class="inner-header"><div class="section-kicker">03 / SEMANTIC DESIGN TOKENS</div><h1>Designed to <em>adapt.</em></h1><p>组件始终读取语义 Token，而不是写死的色值。这是让六种主题自由切换、未来扩展到更多风格的基础。</p><div class="inner-actions"><span class="live-indicator"><span /> {{ activeTheme.name.toUpperCase() }} THEME ACTIVE</span><button class="button button-secondary button-sm" @click="copyTokens"><Copy :size="14" /> 复制当前 Token</button></div></section>
+            <section class="inner-header"><div class="section-kicker">03 / SEMANTIC DESIGN TOKENS</div><h1>Designed to <em>adapt.</em></h1><p>组件始终读取语义 Token，而不是写死的色值。这是让多套主题自由切换、未来持续扩展视觉风格的基础。</p><div class="inner-actions"><span class="live-indicator"><span /> {{ activeTheme.name.toUpperCase() }} THEME ACTIVE</span><button class="button button-secondary button-sm" @click="copyTokens"><Copy :size="14" /> 复制当前 Token</button></div></section>
             <section class="token-grid"><div v-for="token in tokens" :key="token.name" class="token-card"><div class="token-card-top"><span>{{ token.meaning }}</span><span v-if="token.swatch" class="token-swatch" :style="{ background: `var(${token.name})` }" /></div><strong>{{ token.name }}</strong><code>{{ getToken(token.name) || '—' }}</code></div></section>
             <section class="token-bottom"><div class="token-guide"><div class="section-kicker">HOW IT WORKS</div><h2>只改 Token，不改组件。</h2><p>所有视觉样式统一使用 <code>var(--token)</code>。主题切换时修改根节点的 <code>data-theme</code>，位于 Portal 中的菜单和弹窗也能够继承同一套变量。</p><ul><li><Check :size="15" /> CSS Variables：控制视觉样式</li><li><Check :size="15" /> Reka UI Primitives：管理底层交互</li><li><Check :size="15" /> LocalStorage：记忆当前主题</li><li><Check :size="15" /> 单一主题 ID：集中管理状态</li></ul></div><div class="code-panel"><div class="code-panel-title"><span class="code-dots"><i/><i/><i/></span><span>theme.css</span><button aria-label="复制 CSS" @click="copyTokens"><Copy :size="15" /></button></div><pre><code>{{ codeSnippet }}</code></pre></div></section>
             <footer class="page-footer"><span>FORMA DESIGN FOUNDATION · BUILT ON REKA UI</span><span>DESIGN TOKENS / V1.0</span></footer>

@@ -196,3 +196,894 @@ body, .sidebar, .topbar, .content, .button, .theme-card, .specimen-card, .workbe
 @media (max-width: 560px) { .hero h1 { font-size: 43px; letter-spacing: -2.7px; }.hero-copy { padding-top: 43px; }.hero-description { font-size: 12px; }.hero-art { min-height: 260px; }.art-main-card { transform: translateX(-50%) rotate(-4deg) scale(.9); }.art-floating-one { transform: rotate(-7deg) scale(.82); transform-origin: left top; }.art-floating-bottom { transform: rotate(5deg) scale(.85); transform-origin: right bottom; }.metrics { grid-template-columns: 1fr; gap: 9px; }.metric { min-height: 68px; padding: 11px 18px; }.metric strong { font-size: 22px; }.theme-grid,.showcase-grid,.component-grid,.token-grid { grid-template-columns: 1fr; }.theme-preview { height: 175px; }.section-heading { align-items: start; }.section-detail { display: none; }.section-heading h2 { font-size: 23px; }.specimen-card { min-height: 280px; }.page-footer { flex-direction: column; gap: 5px; }.topbar .breadcrumb-root { display:none; }.topbar .crumb-arrow { display:none; }.theme-select-trigger { min-width: 125px; }.inner-header { padding-top: 39px; }.inner-header h1 { font-size: 40px; }.inner-actions { flex-wrap: wrap; }.bottom-cta { align-items: start; flex-wrap: wrap; }.bottom-cta > .button { margin-left: auto; }.dialog-content { padding: 22px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
 [hidden] { display: none !important; }
+
+
+/* --------------------------------------------------------------------------
+   BOARDUI THEME ADAPTER
+   BoardUI's React/Next behavior is intentionally not copied here. These rules
+   recreate its visual recipes on top of the existing Reka UI primitives.
+   Reference: BoardUI/boardui (MIT), especially styles/theme.css and base controls.
+   -------------------------------------------------------------------------- */
+:root[data-theme="boardui"] {
+  --board-accent-400: #3392ff;
+  --board-accent-500: #2b7fff;
+  --board-accent-600: #155dfc;
+  --board-accent-700: #1447e6;
+  --board-neutral-100: #f7f7f7;
+  --board-neutral-200: #ebebeb;
+  --board-neutral-300: #d4d4d4;
+  --board-neutral-400: #a3a3a3;
+  --board-shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .06);
+  --board-shadow-sidebar:
+    0 1px 0 0 rgb(0 0 0 / .02),
+    0 1px 12px 0 rgb(0 0 0 / .06),
+    0 0 1px 0 rgb(0 0 0 / .32);
+  --board-shadow-selected:
+    0 0 0 1px var(--board-accent-500),
+    inset 0 1px 0 0 rgb(255 255 255 / .25);
+}
+
+/* Floating application shell / sidebar */
+:root[data-theme="boardui"] .app-shell {
+  min-height: 100vh;
+  gap: 16px;
+  padding: 12px;
+  background: var(--page-bg);
+}
+:root[data-theme="boardui"] .sidebar {
+  min-height: calc(100vh - 24px);
+  height: calc(100vh - 24px);
+  top: 12px;
+  border: 1px solid #fff;
+  border-radius: 24px;
+  box-shadow: var(--board-shadow-sidebar);
+  overflow: hidden;
+}
+:root[data-theme="boardui"] .sidebar-header { height: 76px; padding: 0 18px; }
+:root[data-theme="boardui"] .sidebar-content { padding: 20px 10px 14px; }
+:root[data-theme="boardui"] .sidebar-footer { padding: 14px 12px; }
+:root[data-theme="boardui"] .topbar {
+  height: 64px;
+  border-bottom-color: var(--border);
+  background: color-mix(in srgb, var(--page-bg) 94%, transparent);
+  backdrop-filter: blur(14px);
+}
+:root[data-theme="boardui"] .brand-logo {
+  border-radius: 10px;
+  transform: none;
+  background: var(--text-strong);
+}
+:root[data-theme="boardui"] .nav-item {
+  min-height: 36px;
+  padding: 8px;
+  gap: 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
+}
+:root[data-theme="boardui"] .nav-item.active {
+  color: #fff;
+  background: linear-gradient(180deg, var(--board-accent-500) 0%, var(--board-accent-600) 100%);
+  box-shadow: var(--board-shadow-selected);
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .nav-item.active::before { display: none; }
+:root[data-theme="boardui"] .nav-item.active small,
+:root[data-theme="boardui"] .nav-item.active svg { color: #fff; opacity: .92; }
+:root[data-theme="boardui"] .theme-nav-item {
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+:root[data-theme="boardui"] .theme-nav-item.active {
+  background: var(--board-neutral-200);
+  font-weight: 600;
+}
+
+/* Button matrix: BoardUI medium = 36px / radius 10 / compact icon gaps. */
+:root[data-theme="boardui"] .button {
+  min-height: 36px;
+  padding: 0 12px;
+  gap: 4px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  box-shadow: none;
+  transform: none;
+}
+:root[data-theme="boardui"] .button-primary {
+  color: #fff;
+  border-color: var(--board-accent-600);
+  background: linear-gradient(180deg, var(--board-accent-500) 0%, var(--board-accent-600) 100%);
+  box-shadow: var(--board-shadow-xs), inset 0 1px 0 rgb(255 255 255 / .18);
+}
+:root[data-theme="boardui"] .button-primary:hover:not(:disabled) {
+  filter: none;
+  transform: none;
+  border-color: var(--board-accent-500);
+  background: linear-gradient(180deg, var(--board-accent-400) 0%, var(--board-accent-500) 100%);
+}
+:root[data-theme="boardui"] .button-primary:active:not(:disabled) {
+  background: linear-gradient(180deg, var(--board-accent-600) 0%, var(--board-accent-700) 100%);
+}
+:root[data-theme="boardui"] .button-secondary,
+:root[data-theme="boardui"] .button-outline {
+  color: var(--text-strong);
+  background: #fff;
+  border-color: var(--board-neutral-200);
+  box-shadow: var(--board-shadow-xs);
+}
+:root[data-theme="boardui"] .button-secondary:hover:not(:disabled),
+:root[data-theme="boardui"] .button-outline:hover:not(:disabled) {
+  background: var(--board-neutral-100);
+  border-color: var(--board-neutral-300);
+}
+:root[data-theme="boardui"] .button-ghost {
+  color: var(--board-accent-700);
+  background: #dbeafe;
+  padding: 0 12px;
+}
+:root[data-theme="boardui"] .button-ghost:hover { color: var(--board-accent-700); background: #bfdbfe; }
+:root[data-theme="boardui"] .button:focus-visible,
+:root[data-theme="boardui"] .icon-button-square:focus-visible,
+:root[data-theme="boardui"] .icon-action:focus-visible {
+  outline: 2px solid var(--board-accent-500);
+  outline-offset: 2px;
+}
+:root[data-theme="boardui"] .icon-button-square {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #fff;
+  border-color: var(--board-neutral-200);
+  box-shadow: var(--board-shadow-xs);
+}
+:root[data-theme="boardui"] .icon-button-square:hover {
+  background: var(--board-neutral-100);
+  border-color: var(--board-neutral-300);
+}
+
+/* Inputs / select triggers: tertiary neutral fill with an inset state ring. */
+:root[data-theme="boardui"] .field-select,
+:root[data-theme="boardui"] .text-input,
+:root[data-theme="boardui"] .theme-select-trigger {
+  min-height: 36px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--board-neutral-200);
+  color: var(--text-strong);
+  box-shadow: none;
+}
+:root[data-theme="boardui"] .field-select:hover,
+:root[data-theme="boardui"] .text-input:hover,
+:root[data-theme="boardui"] .theme-select-trigger:hover {
+  border-color: var(--board-neutral-300);
+  background: var(--board-neutral-200);
+}
+:root[data-theme="boardui"] .text-input:focus,
+:root[data-theme="boardui"] .text-input:focus-visible {
+  outline: none;
+  border-color: var(--board-neutral-400);
+}
+:root[data-theme="boardui"] .text-input::placeholder { color: var(--faint); }
+
+/* BoardUI menus use a 16px panel with 10px rows and a very light elevation. */
+:root[data-theme="boardui"] .select-popover {
+  padding: 10px;
+  border-radius: 16px;
+  border-color: var(--board-neutral-200);
+  box-shadow: 0 1px 1px rgb(0 0 0 / .04), 0 4px 4px rgb(0 0 0 / .02);
+}
+:root[data-theme="boardui"] .select-option {
+  min-height: 36px;
+  padding: 8px;
+  gap: 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .select-option[data-highlighted],
+:root[data-theme="boardui"] .select-option:focus-visible {
+  color: var(--text-strong);
+  background: var(--board-neutral-100);
+}
+:root[data-theme="boardui"] .select-option[data-state="checked"] { color: var(--board-accent-700); }
+
+/* Checkbox: 16px, radius 4, gradient selected state + inner top highlight. */
+:root[data-theme="boardui"] .checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border-color: var(--board-neutral-300);
+  background: #fff;
+  box-shadow: var(--board-shadow-xs);
+}
+:root[data-theme="boardui"] .checkbox[data-state="checked"] {
+  border-color: var(--board-accent-500);
+  background: linear-gradient(180deg, var(--board-accent-500), var(--board-accent-600));
+  box-shadow: inset 0 2px 0 rgb(255 255 255 / .25), inset 0 0 0 1px var(--board-accent-500);
+}
+
+/* Switch: BoardUI medium 42×24 with a gradient thumb and embossed inner chip. */
+:root[data-theme="boardui"] .switch {
+  width: 42px;
+  height: 24px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--board-neutral-200);
+}
+:root[data-theme="boardui"] .switch[data-state="checked"] {
+  background: linear-gradient(180deg, var(--board-accent-500), var(--board-accent-600));
+  box-shadow: inset 0 1.5px 0 rgb(255 255 255 / .25), inset 0 0 0 .75px var(--board-accent-500);
+}
+:root[data-theme="boardui"] .switch-thumb {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(180deg, #fff 43.837%, var(--board-neutral-100));
+  box-shadow: 0 3px 3px rgb(0 0 0 / .03), 0 .75px 0 rgb(0 0 0 / .05);
+}
+:root[data-theme="boardui"] .switch-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 7px;
+  height: 7px;
+  transform: translate(-50%,-50%);
+  border: .5px solid rgb(212 212 212 / .55);
+  border-radius: 50%;
+  background: linear-gradient(0deg, #fff 43.837%, var(--board-neutral-100));
+  box-shadow: 0 3px 3px rgb(0 0 0 / .03);
+}
+:root[data-theme="boardui"] .switch[data-state="checked"] .switch-thumb { transform: translateX(18px); }
+:root[data-theme="boardui"] .switch[data-state="checked"] .switch-thumb::after {
+  border-color: var(--board-accent-600);
+  background: linear-gradient(0deg, #2473fe 43.837%, #0450e2);
+}
+
+/* Underline tabs replace the generic segmented-control treatment. */
+:root[data-theme="boardui"] .tabs-list {
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--board-neutral-200);
+  border-radius: 0;
+  background: transparent;
+}
+:root[data-theme="boardui"] .tab-trigger {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border-radius: 4px;
+  color: var(--text-strong);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 400;
+}
+:root[data-theme="boardui"] .tab-trigger[data-state="active"] {
+  color: var(--board-accent-600);
+  background: transparent;
+  box-shadow: none;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .tab-trigger[data-state="active"]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  background: var(--board-accent-600);
+}
+
+/* Cards / dialogs keep BoardUI's crisp neutral edge and low contact shadow. */
+:root[data-theme="boardui"] .metric,
+:root[data-theme="boardui"] .theme-card,
+:root[data-theme="boardui"] .specimen-card,
+:root[data-theme="boardui"] .workbench-card,
+:root[data-theme="boardui"] .token-card,
+:root[data-theme="boardui"] .token-guide,
+:root[data-theme="boardui"] .code-panel {
+  border-color: var(--board-neutral-200);
+  box-shadow: 0 1px 1px rgb(0 0 0 / .05);
+}
+:root[data-theme="boardui"] .workbench-card,
+:root[data-theme="boardui"] .specimen-card,
+:root[data-theme="boardui"] .token-card { border-radius: 12px; }
+:root[data-theme="boardui"] .dialog-content {
+  border-color: var(--board-neutral-200);
+  border-radius: 20px;
+  box-shadow: 0 0 6px rgb(0 0 0 / .06), 0 0 64px rgb(0 0 0 / .12), 0 1px 12px rgb(0 0 0 / .06);
+}
+:root[data-theme="boardui"] .hero-art {
+  background: var(--board-neutral-100);
+  border-color: var(--board-neutral-200);
+  border-radius: 20px;
+}
+:root[data-theme="boardui"] .art-main-card,
+:root[data-theme="boardui"] .art-floating {
+  border-color: var(--board-neutral-200);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 4px 12px rgb(0 0 0 / .06);
+}
+:root[data-theme="boardui"] .pref-icon,
+:root[data-theme="boardui"] .workbench-number,
+:root[data-theme="boardui"] .primitive-chip {
+  background: var(--board-neutral-100);
+  color: var(--muted);
+}
+
+/* Keep the floating shell usable on the existing mobile drawer breakpoint. */
+@media (max-width: 780px) {
+  :root[data-theme="boardui"] .app-shell { gap: 0; padding: 0; }
+  :root[data-theme="boardui"] .sidebar {
+    top: 0;
+    margin: 0;
+    width: 260px;
+    height: 100dvh;
+    min-height: 100dvh;
+    border-radius: 0 24px 24px 0;
+    border-left: 0;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   BOARDUI REFINEMENT V2
+   Second pass: move the whole workspace closer to BoardUI's compact SaaS
+   language instead of only re-skinning isolated controls.
+   -------------------------------------------------------------------------- */
+:root[data-theme="boardui"] body {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+/* Content frame: BoardUI uses a 12px application gutter and a ~1300px column. */
+:root[data-theme="boardui"] .main-shell { min-width: 0; }
+:root[data-theme="boardui"] .topbar {
+  top: 12px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 4px;
+  border-bottom: 0;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(12px) saturate(1.2);
+}
+:root[data-theme="boardui"] .content {
+  max-width: 1300px;
+  padding: 0 4px 24px;
+}
+:root[data-theme="boardui"] .breadcrumb {
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .breadcrumb-root {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+:root[data-theme="boardui"] .crumb-arrow { color: var(--faint); }
+:root[data-theme="boardui"] .topbar-right { gap: 8px; }
+:root[data-theme="boardui"] .header-divider { height: 16px; background: var(--board-neutral-200); }
+:root[data-theme="boardui"] .status-pill {
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid var(--board-neutral-200);
+  border-radius: 8px;
+  background: var(--board-neutral-100);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+:root[data-theme="boardui"] .status-dot,
+:root[data-theme="boardui"] .live-indicator > span {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgb(34 197 94 / .10);
+}
+:root[data-theme="boardui"] .icon-action,
+:root[data-theme="boardui"] .top-icon-link {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+:root[data-theme="boardui"] .icon-action:hover,
+:root[data-theme="boardui"] .top-icon-link:hover { background: var(--board-neutral-100); }
+
+/* Sidebar density and hierarchy. */
+:root[data-theme="boardui"] .nav-group-label {
+  margin-bottom: 8px;
+  padding: 0 10px;
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+}
+:root[data-theme="boardui"] .primary-nav,
+:root[data-theme="boardui"] .theme-nav { gap: 4px; }
+:root[data-theme="boardui"] .sidebar-rule { margin: 18px 10px; border-color: var(--board-neutral-200); }
+:root[data-theme="boardui"] .theme-nav-item {
+  font-size: 13px;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .theme-mini-swatch {
+  width: 10px;
+  height: 10px;
+  border-width: 1.5px;
+}
+:root[data-theme="boardui"] .aside-note {
+  margin: 0 2px;
+  padding: 14px;
+  border-color: var(--board-neutral-200);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgb(0 0 0 / .04);
+}
+:root[data-theme="boardui"] .aside-note-icon { margin-bottom: 8px; color: var(--board-accent-600); }
+:root[data-theme="boardui"] .aside-note > strong { font-size: 13px; font-weight: 500; }
+:root[data-theme="boardui"] .aside-note > p { margin: 5px 0 10px; font-size: 11px; line-height: 16px; }
+:root[data-theme="boardui"] .aside-note button {
+  color: var(--board-accent-700);
+  font-size: 11px;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .sidebar-footer {
+  border-color: var(--board-neutral-200);
+  background: rgb(255 255 255 / .5);
+}
+:root[data-theme="boardui"] .avatar-mark {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--board-neutral-200);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-strong);
+  font-size: 12px;
+  font-weight: 600;
+}
+:root[data-theme="boardui"] .sidebar-footer-text strong { font-size: 12px; font-weight: 500; }
+:root[data-theme="boardui"] .sidebar-footer-text small { font-size: 10px; }
+
+/* Hero: remove the editorial/marketing feel and turn it into a product surface. */
+:root[data-theme="boardui"] .hero {
+  grid-template-columns: minmax(0,1fr) minmax(360px,430px);
+  min-height: 320px;
+  gap: 16px;
+  border-bottom: 0;
+}
+:root[data-theme="boardui"] .hero-copy {
+  padding: 38px 24px 34px 4px;
+}
+:root[data-theme="boardui"] .eyebrow {
+  gap: 7px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .03em;
+}
+:root[data-theme="boardui"] .eyebrow-line {
+  width: 14px;
+  height: 1px;
+  background: var(--board-neutral-400);
+}
+:root[data-theme="boardui"] .hero h1 {
+  margin: 18px 0 12px;
+  max-width: 620px;
+  color: var(--text-strong);
+  font-size: clamp(34px,3.2vw,48px);
+  line-height: 1.16;
+  font-weight: 500;
+  letter-spacing: -.035em;
+}
+:root[data-theme="boardui"] .hero h1 em,
+:root[data-theme="boardui"] .inner-header h1 em { color: var(--text-strong); }
+:root[data-theme="boardui"] .hero-description {
+  max-width: 540px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+:root[data-theme="boardui"] .hero-actions { margin-top: 22px; gap: 8px; }
+:root[data-theme="boardui"] .hero-art {
+  min-height: 280px;
+  margin: 12px 0;
+  overflow: hidden;
+  background: linear-gradient(180deg,#fafafa 0%,#f7f7f7 100%);
+}
+:root[data-theme="boardui"] .hero-art .art-grain {
+  opacity: .18;
+  background-size: 18px 18px;
+}
+:root[data-theme="boardui"] .hero-art .orbit,
+:root[data-theme="boardui"] .hero-art .art-cross { display: none; }
+:root[data-theme="boardui"] .art-main-card {
+  width: 280px;
+  min-height: 170px;
+  top: 20%;
+  padding: 20px;
+  transform: translateX(-50%);
+  border-radius: 16px;
+  backdrop-filter: none;
+}
+:root[data-theme="boardui"] .art-widget-number {
+  margin-top: 12px;
+  font-size: 46px;
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+:root[data-theme="boardui"] .art-progress { height: 6px; margin: 15px 0 10px; }
+:root[data-theme="boardui"] .art-floating-one {
+  top: 12%;
+  left: 5%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transform: none;
+  font-size: 9px;
+}
+:root[data-theme="boardui"] .art-floating-bottom {
+  right: 4%;
+  bottom: 9%;
+  min-width: 194px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transform: none;
+}
+:root[data-theme="boardui"] .small-avatar {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--board-neutral-200);
+  border-radius: 8px;
+  background: var(--board-neutral-100);
+  color: var(--text-strong);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Dashboard cards and section rhythm. */
+:root[data-theme="boardui"] .metrics {
+  gap: 12px;
+  margin: 12px 0 40px;
+}
+:root[data-theme="boardui"] .metric {
+  min-height: 84px;
+  padding: 16px 18px;
+  border-radius: 12px;
+}
+:root[data-theme="boardui"] .metric strong {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+:root[data-theme="boardui"] .metric div > span { font-size: 12px; }
+:root[data-theme="boardui"] .metric > svg { color: var(--muted); opacity: 1; }
+:root[data-theme="boardui"] .section { margin-bottom: 44px; }
+:root[data-theme="boardui"] .section-heading { margin-bottom: 18px; }
+:root[data-theme="boardui"] .section-kicker {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .04em;
+}
+:root[data-theme="boardui"] .section-heading h2 {
+  margin-bottom: 5px;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+:root[data-theme="boardui"] .section-heading p { font-size: 12px; line-height: 18px; }
+:root[data-theme="boardui"] .section-detail { font-size: 10px; font-weight: 500; letter-spacing: .04em; }
+:root[data-theme="boardui"] .count-label {
+  border-radius: 6px;
+  background: #dbeafe;
+  color: var(--board-accent-700);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Theme cards: no "floating gallery" motion; use crisp product-card feedback. */
+:root[data-theme="boardui"] .theme-grid { gap: 12px; }
+:root[data-theme="boardui"] .theme-card {
+  padding: 6px;
+  border-radius: 14px;
+}
+:root[data-theme="boardui"] .theme-card:hover {
+  transform: none;
+  border-color: var(--board-neutral-300);
+  box-shadow: 0 1px 2px rgb(0 0 0 / .06);
+}
+:root[data-theme="boardui"] .theme-card.selected {
+  border-color: var(--board-accent-500);
+  box-shadow: 0 0 0 1px var(--board-accent-500), 0 1px 2px rgb(0 0 0 / .05);
+}
+:root[data-theme="boardui"] .theme-card-details { padding: 10px 8px 7px; }
+:root[data-theme="boardui"] .theme-card-name strong { font-size: 13px; font-weight: 500; }
+:root[data-theme="boardui"] .theme-card-name span,
+:root[data-theme="boardui"] .theme-card-foot small { font-size: 10px; }
+
+/* Make the BoardUI thumbnail itself read like the source app shell. */
+[data-preview="boardui"].theme-preview {
+  padding: 6px;
+  background: #fff;
+}
+[data-preview="boardui"] .mini-toolbar {
+  position: absolute;
+  z-index: 2;
+  inset: 6px auto 6px 6px;
+  width: 74px;
+  height: auto;
+  padding: 10px 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  border: 1px solid #fff;
+  border-radius: 12px;
+  background: #f7f7f7;
+  box-shadow: 0 1px 0 rgb(0 0 0 / .02), 0 1px 8px rgb(0 0 0 / .05), 0 0 1px rgb(0 0 0 / .22);
+}
+[data-preview="boardui"] .mini-mark {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: #171717;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0;
+}
+[data-preview="boardui"] .mini-mark > span { color: #8ec5ff; }
+[data-preview="boardui"] .mini-toolbar-center {
+  width: 100%;
+  padding: 6px 5px;
+  overflow: hidden;
+  border-radius: 7px;
+  color: #fff;
+  background: linear-gradient(180deg,#2b7fff,#155dfc);
+  font-size: 6px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+[data-preview="boardui"] .mini-circles {
+  width: 100%;
+  margin-top: auto;
+  gap: 3px;
+}
+[data-preview="boardui"] .mini-circles i {
+  width: 8px;
+  height: 3px;
+  border-radius: 3px;
+  background: #d4d4d4;
+}
+[data-preview="boardui"] .mini-main {
+  height: 100%;
+  margin-left: 80px;
+  padding: 9px 10px 8px;
+}
+[data-preview="boardui"] .mini-heading { font-size: 10px; font-weight: 500; }
+[data-preview="boardui"] .mini-subtitle { margin-top: 1px; font-size: 6px; }
+[data-preview="boardui"] .mini-panels { gap: 6px; margin-top: 10px; }
+[data-preview="boardui"] .mini-panel {
+  height: 82px;
+  border-color: #ebebeb;
+  border-radius: 9px;
+  box-shadow: 0 1px 1px rgb(0 0 0 / .04);
+}
+[data-preview="boardui"] .mini-big-number { font-size: 17px; font-weight: 500; }
+[data-preview="boardui"] .mini-cta { color: #155dfc; }
+
+/* Component laboratory adopts BoardUI's compact card rhythm. */
+:root[data-theme="boardui"] .showcase-grid,
+:root[data-theme="boardui"] .component-grid { gap: 12px; }
+:root[data-theme="boardui"] .specimen-card { min-height: 278px; }
+:root[data-theme="boardui"] .specimen-heading {
+  padding: 11px 14px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+:root[data-theme="boardui"] .specimen-body { padding: 18px; }
+:root[data-theme="boardui"] .specimen-body h3 {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+:root[data-theme="boardui"] .specimen-body > p { margin: 4px 0 17px; font-size: 11px; }
+:root[data-theme="boardui"] .pref-row { padding: 10px 0; }
+:root[data-theme="boardui"] .pref-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+}
+:root[data-theme="boardui"] .pref-row strong { font-size: 12px; font-weight: 500; }
+:root[data-theme="boardui"] .pref-row small { font-size: 10px; }
+
+:root[data-theme="boardui"] .inner-header {
+  margin-bottom: 18px;
+  padding: 30px 4px 22px;
+}
+:root[data-theme="boardui"] .inner-header h1 {
+  margin: 8px 0 8px;
+  font-size: clamp(28px,3vw,38px);
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+:root[data-theme="boardui"] .inner-header > p {
+  max-width: 680px;
+  font-size: 13px;
+  line-height: 20px;
+}
+:root[data-theme="boardui"] .inner-actions { margin-top: 18px; }
+:root[data-theme="boardui"] .live-indicator { font-size: 10px; font-weight: 500; letter-spacing: .04em; }
+
+:root[data-theme="boardui"] .workbench-card { min-height: 250px; }
+:root[data-theme="boardui"] .workbench-header {
+  padding: 16px 18px 14px;
+  gap: 10px;
+}
+:root[data-theme="boardui"] .workbench-number {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+}
+:root[data-theme="boardui"] .workbench-header h3 { font-size: 14px; font-weight: 500; }
+:root[data-theme="boardui"] .workbench-header p { font-size: 10px; }
+:root[data-theme="boardui"] .primitive-chip {
+  padding: 4px 7px;
+  border-color: var(--board-neutral-200);
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .workbench-body { padding: 20px 18px; }
+:root[data-theme="boardui"] .component-hint { margin-top: 18px; font-size: 11px; line-height: 17px; }
+:root[data-theme="boardui"] .setting-row { padding-bottom: 14px; margin-bottom: 14px; }
+:root[data-theme="boardui"] .setting-row strong { font-size: 13px; font-weight: 500; }
+:root[data-theme="boardui"] .setting-row small { font-size: 10px; }
+
+/* Field labels and compact controls follow the 13/18 and 14/20 BoardUI ramp. */
+:root[data-theme="boardui"] .field-label {
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+}
+:root[data-theme="boardui"] .field-label-spaced { margin-top: 16px; }
+:root[data-theme="boardui"] .field-select,
+:root[data-theme="boardui"] .text-input { font-size: 14px; line-height: 20px; }
+:root[data-theme="boardui"] .form-submit { margin-top: 12px; }
+:root[data-theme="boardui"] .keycap {
+  border: 0;
+  border-radius: 4px;
+  background: var(--board-neutral-300);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 500;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .4);
+}
+
+/* Popovers: subtle scale/blur entry, matching BoardUI's menu recipe. */
+:root[data-theme="boardui"] .select-popover[data-state="open"] {
+  animation: boardui-popover-in .15s ease-out;
+  transform-origin: var(--reka-select-content-transform-origin, top center);
+}
+@keyframes boardui-popover-in {
+  from { opacity: 0; transform: scale(.97); filter: blur(1px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+:root[data-theme="boardui"] .tooltip {
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: #171717;
+  color: #fff;
+  box-shadow: 0 4px 12px rgb(0 0 0 / .14);
+  font-size: 11px;
+}
+:root[data-theme="boardui"] .dialog-overlay {
+  background: rgb(10 10 10 / .34);
+  backdrop-filter: blur(2px);
+}
+:root[data-theme="boardui"] .dialog-content {
+  width: min(420px,calc(100vw - 36px));
+  padding: 24px;
+}
+:root[data-theme="boardui"] .dialog-top { margin-bottom: 16px; }
+:root[data-theme="boardui"] .dialog-emblem {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--board-neutral-200);
+  border-radius: 10px;
+  background: var(--board-neutral-100);
+  color: var(--text-strong);
+}
+:root[data-theme="boardui"] .dialog-title {
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+:root[data-theme="boardui"] .dialog-description {
+  margin-bottom: 18px;
+  font-size: 13px;
+  line-height: 20px;
+}
+:root[data-theme="boardui"] .dialog-actions { gap: 8px; margin-top: 18px; }
+
+/* Stronger state fidelity: disabled controls don't use the generic opacity fade. */
+:root[data-theme="boardui"] .button:disabled {
+  opacity: 1;
+  color: var(--board-neutral-400);
+  border-color: var(--board-neutral-200);
+  background: linear-gradient(180deg,var(--board-neutral-200),var(--board-neutral-300));
+  box-shadow: none;
+}
+:root[data-theme="boardui"] .checkbox:hover { border-color: var(--board-neutral-400); }
+:root[data-theme="boardui"] .switch:focus-visible,
+:root[data-theme="boardui"] .checkbox:focus-visible,
+:root[data-theme="boardui"] .field-select:focus-visible {
+  outline: 2px solid var(--board-accent-500);
+  outline-offset: 2px;
+}
+
+/* Secondary surfaces should feel integrated rather than promotional. */
+:root[data-theme="boardui"] .bottom-cta {
+  gap: 14px;
+  margin-bottom: 34px;
+  padding: 16px 18px;
+  border: 1px solid var(--board-neutral-200);
+  border-radius: 12px;
+  background: var(--board-neutral-100);
+}
+:root[data-theme="boardui"] .bottom-cta-icon {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--board-neutral-200);
+  border-radius: 10px;
+  color: var(--text-strong);
+}
+:root[data-theme="boardui"] .token-grid { gap: 12px; }
+:root[data-theme="boardui"] .token-card { padding: 16px; }
+:root[data-theme="boardui"] .token-card-top { margin-bottom: 12px; }
+:root[data-theme="boardui"] .token-swatch { border-radius: 6px; }
+:root[data-theme="boardui"] .token-bottom { gap: 12px; }
+:root[data-theme="boardui"] .token-guide { padding: 22px; }
+:root[data-theme="boardui"] .token-guide h2 { font-size: 20px; font-weight: 500; }
+:root[data-theme="boardui"] .code-panel-title { height: 42px; background: var(--board-neutral-100); }
+:root[data-theme="boardui"] .toast-message {
+  min-height: 40px;
+  border: 1px solid #262626;
+  border-radius: 10px;
+  background: #171717;
+  color: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / .18);
+}
+
+@media (max-width: 1050px) {
+  :root[data-theme="boardui"] .hero { grid-template-columns: 1fr; }
+  :root[data-theme="boardui"] .hero-copy { padding-bottom: 18px; }
+  :root[data-theme="boardui"] .hero-art { margin-top: 0; }
+}
+@media (max-width: 780px) {
+  :root[data-theme="boardui"] .topbar {
+    top: 0;
+    height: 60px;
+    padding: 0 16px;
+  }
+  :root[data-theme="boardui"] .content { padding: 0 16px 20px; }
+}
