@@ -5,7 +5,7 @@ import { test } from 'node:test'
 const css = readFileSync(new URL('../src/theme/theme.css', import.meta.url), 'utf8')
 const ui = readFileSync(new URL('../src/App.vue', import.meta.url), 'utf8')
 const manager = readFileSync(new URL('../src/theme/useTheme.ts', import.meta.url), 'utf8')
-const ids = ['porcelain', 'midnight', 'lavender', 'parchment', 'evergreen', 'brutalist']
+const ids = ['porcelain', 'midnight', 'lavender', 'parchment', 'evergreen', 'brutalist', 'boardui']
 const required = [
   '--page-bg', '--sidebar-bg', '--surface', '--surface-alt', '--surface-hover',
   '--text', '--text-strong', '--muted', '--faint', '--border', '--border-strong',
@@ -22,7 +22,7 @@ function definition(theme) {
   const bodyEnd = css.indexOf('}', bodyStart)
   return css.slice(bodyStart, bodyEnd)
 }
-test('all six themes provide every required semantic token', () => {
+test('all seven themes provide every required semantic token', () => {
   for (const id of ids) {
     const block = definition(id)
     for (const token of required) {
